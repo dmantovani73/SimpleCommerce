@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ProductViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="esh-catalog-items row">
+        @foreach (var p in Model)
+        {
+            <div class="esh-catalog-item col-md-4">
+                @await Html.PartialAsync("Product", p)
+            </div>
+        }
+    </div>
+</div>

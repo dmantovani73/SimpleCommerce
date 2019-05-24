@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewBag.Title ?? ViewData["Title"])</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/app.css" />
+    <link rel="stylesheet" href="~/css/app.component.css" />
+    <link rel="stylesheet" href="~/css/shared/components/header/header.css" />
+    <link rel="stylesheet" href="~/css/shared/components/identity/identity.css" />
+    <link rel="stylesheet" href="~/css/shared/components/pager/pager.css" />
+    <link rel="stylesheet" href="~/css/basket/basket.component.css" />
+    <link rel="stylesheet" href="~/css/basket/basket-status/basket-status.component.css" />
+    <link rel="stylesheet" href="~/css/catalog/catalog.component.css" />
+    <link rel="stylesheet" href="~/css/orders/orders.component.css" />
+</head>
+<body>
+    <div class="esh-app-wrapper">
+        @await Html.PartialAsync("Header")
+        @await Html.PartialAsync("Banner")
+        @await Html.PartialAsync("Filters")
+        @RenderBody()
+        @await Html.PartialAsync("Footer")
+    </div>
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js?v=EWaMeWsJBYWmL2g_KkgXZQ5nPe-a3Ichp0LEgzXczKo"></script>
+</body>
+</html>

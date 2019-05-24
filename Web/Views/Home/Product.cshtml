@@ -1,0 +1,16 @@
+﻿@model ProductViewModel
+
+<form method="post" action="@Url.Action("Add", "Basket")">
+    <img class="esh-catalog-thumbnail" src="@Model.PictureUrl" />
+    <input class="esh-catalog-button" type="submit" value="[ ADD TO BASKET ]" />
+    <div class="esh-catalog-name">
+        <span>@Model.Name</span>
+    </div>
+    <div class="esh-catalog-price">
+        <span>@Model.Price.ToString("N2")</span>
+    </div>
+    <input type="hidden" value="@Model.Id" name="id" />
+    <input type="hidden" value="@Model.Name" name="name" />
+    <input type="hidden" value="@Model.PictureUrl" name="pictureUri" />
+    <input type="hidden" value="@Model.Price" name="price" />
+</form>
