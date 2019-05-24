@@ -35,7 +35,7 @@
 * Modificare [Setup.cs](https://gist.github.com/dmantovani73/70da48797b480ccbc7689e951e271d4d/3c107524f8e7967c449ce481e43886ea05a980a8) per aggiungere MVC alla pipeline
 * Creare il folder ViewModels nel quale raccogliere tutte le classi che fungono da ViewModel
   * [ProductViewModel.cs](https://gist.github.com/dmantovani73/f6450bd09ab9502840ba995b753ee94d)
-  * [BasketViewModel.cs](https://gist.github.com/dmantovani73/4880bde8f90af06ce9541f0279bbe5d8)
+  * [BasketViewModel.cs](https://gist.github.com/dmantovani73/4880bde8f90af06ce9541f0279bbe5d8/67f26c288e6edc2ccb552e97f139835ec2f7219c)
 * Creare il folder Controllers dove raccogliere tutte le classi che fungono da Controller
   * [HomeController.cs](https://gist.github.com/dmantovani73/0ff091e8190d56c13db046409c7a9709/bccda6da131cfe05c1b2aecb96927431c30b00f9)
   * [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/9467e2561441952a7bb4e41599a5435e7c04a87b)
@@ -99,6 +99,8 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 > * [Auto-Mapping](https://docs.servicestack.net/auto-mapping)
 
 ## Servizi REST e chiamate AJAX
+* Modificare [BasketViewModel.cs](https://gist.github.com/dmantovani73/4880bde8f90af06ce9541f0279bbe5d8/7c9baf09a63979c6cbd1386bd7fcde6f22488989) aggiungendo la quantità.
+* Modificare [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/ff42b2ca6eb167ba11ff79efd738812c42a8bda9) per gestire la quantità.
 * Creare il folder ServiceModel
   * [Basket.cs](https://gist.github.com/dmantovani73/f04ac3dc04f34268f5e51f974bd4d3dc/9ffc816db7ab4c706da59d45c82d23e8fac9fea4)
 * Creare il folder ServiceInterface
@@ -107,7 +109,13 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 * Modificare [AppHost.cs](https://gist.github.com/dmantovani73/243c9ba93985f217eba59f8f79a37696/3d55fc9222bd60c07d7969d7e18d377ce8a57dd4) per fare in modo che le route di ServiceStack non vadano in conflitto con quelle MVC (es. /basket).
 * Rimuovere il counter degli elementi nel basket da [HomeController.cs](https://gist.github.com/dmantovani73/0ff091e8190d56c13db046409c7a9709/e50f85fda0aeacf0953577966abe7a92c69a8741) e [BasketController](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/341f5d3a5c5f7e9afce6f307386020f7878c2993)
 * Modificare [Views/Shared/Header.cshtml](https://gist.github.com/dmantovani73/9e0751a3f43ca288b1dc216e54cb47f7/38bc179b7f1179b54f70ebcce4774e6cd7a6ec01) rimuovendo il conteggio degli elementi nel basket
-* Modificare [Views/Shared/\_Layout.cshtml](https://gist.github.com/dmantovani73/57631cbe51313ef4135bf90e8022f4cc/4cf2f2e90b5b7331a066a6cefbc06a4047ad4c25) leggendo il numero di elementi nel basket con una chiamata AJAX
+* Modificare [Views/Shared/\_Layout.cshtml](https://gist.github.com/dmantovani73/57631cbe51313ef4135bf90e8022f4cc/2e5b13261e90d159620a101ae12f7135b6a1da86) leggendo il numero di elementi nel basket con una chiamata AJAX
+
+### Esercizio
+* Implementare la view che mostra il contenuto del carrello in termini di nome prodotto, quantità, prezzo.
+
+> Riferimenti
+> * https://docs.servicestack.net/authentication-and-authorization
 
 > Riferimenti
 > * [Creating a WebService from scratch](https://docs.servicestack.net/create-webservice-from-scratch)
