@@ -32,6 +32,7 @@
 > * [Setup delle funzionalità di logging](https://docs.servicestack.net/logging)
 
 ## MVC
+* Installare il pacchetto [ServiceStack.Mvc](https://www.nuget.org/packages/ServiceStack.Mvc/)
 * Modificare [Setup.cs](https://gist.github.com/dmantovani73/70da48797b480ccbc7689e951e271d4d/3c107524f8e7967c449ce481e43886ea05a980a8) per aggiungere MVC alla pipeline
 * Creare il folder ViewModels nel quale raccogliere tutte le classi che fungono da ViewModel
   * [ProductViewModel.cs](https://gist.github.com/dmantovani73/f6450bd09ab9502840ba995b753ee94d)
@@ -60,10 +61,10 @@
 ### Esercizio
 Il codice contiene un bug, facendo refresh della pagina il contatore degli elementi nel carrello viene azzerato fino a quando non viene aggiunto un ulteriore prodotto.
 * Controllers
-  * Creare [ControllerBase.cs](https://gist.github.com/dmantovani73/b95eda2c14d1b11af477ecc8145f22e1)
+  * Creare [ControllerBase.cs](https://gist.github.com/dmantovani73/b95eda2c14d1b11af477ecc8145f22e1/015ebfd65a702bb0ae945fb1ce127ae776fe51a6)
 * Creare il folder Infrastructure
   * [SessionUtils.cs](https://gist.github.com/dmantovani73/db01d7d9c516a497927e81dc71426f35)
-* Togliere la classe SessionUtils da [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/3a59b0e82de214591ec7665ed343795948aa7005) e farlo ereditare da BaseController
+* Togliere la classe SessionUtils da [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/3a59b0e82de214591ec7665ed343795948aa7005) e farlo ereditare da ControllerBase.
 * Modificare [HomeController.cs](https://gist.github.com/dmantovani73/0ff091e8190d56c13db046409c7a9709/1e3ca539960d8808c61f2726801e6cc0bf1d1253)
 
 ## Caching
@@ -115,10 +116,58 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 * Implementare la view che mostra il contenuto del carrello in termini di nome prodotto, quantità, prezzo.
 
 > Riferimenti
-> * https://docs.servicestack.net/authentication-and-authorization
-
-> Riferimenti
 > * [Creating a WebService from scratch](https://docs.servicestack.net/create-webservice-from-scratch)
 > * [Serialization and Deserialization](https://docs.servicestack.net/serialization-deserialization)
 > * [Swagger](https://docs.servicestack.net/swagger-api)
 > * [jQuery AJAX](http://api.jquery.com/jquery.ajax/)
+
+## Autenticazione a autorizzazione
+* Installare il pacchetto [ServiceStack.Server](https://www.nuget.org/packages/ServiceStack.Server/). Contiene quello che serve per creare un Auth Repository (utenti, ruoli, permessi, ...) su db (via OrmLite).
+* Modificare [AppHost.cs](https://gist.github.com/dmantovani73/243c9ba93985f217eba59f8f79a37696/4fc8234e7e7afae6741fead99a4c965218e29a3c) per configurare l'autenticazione (provider, repository credenziali, ...).
+* Creare la classe helper [Infrastructure/UrlHelpers.cs](https://gist.github.com/dmantovani73/25708c23f91c4e13c43e45dadf1ba48e/e87704a02a02f76bd8109e673d176ff6a7f83644). E' un esempio di come estendere MVC con un extension method. Utile per recuperare la URL di una action evitando di utilizzare stringhe (che possono cambiare).
+* Modificare la classe [ControllerBase.cs](https://gist.github.com/dmantovani73/b95eda2c14d1b11af477ecc8145f22e1/4f1457f03c253d15add78ffb2503253dc71eff7f) per indicare a ServiceStack.Mvc a quali URL fare redirect in caso di accesso negato / non consentito.
+* Aggiungere ora [AccountController.cs](https://gist.github.com/dmantovani73/63c538c719aff2d639f685907e382dee/cee4d99d31c15e4c9464c8a1ab3dff20149113f2) contenente le action di login, register (registrazione esplicita), logout.
+* Le pagine di login e registrazione non devono avere banner e filtri, per questa ragione facciamo un minimo di refactoring del layout in modo da mettere a fattor comune quello che si può
+  * Creare [Views/Shared/_BasicLayout.cshtml](https://gist.github.com/dmantovani73/cb3a8e643a34fba9b5797ce55e3e2f8f/f1ee514203a02c1e119bdc2c7695776409bd8a62)
+  * Modificare [Views/Shared/_Layout.cshtml](https://gist.github.com/dmantovani73/57631cbe51313ef4135bf90e8022f4cc/7d5c8aabfb6d363fa74fda1298743293093dbcac) in modo da "ereditare" da _BasicLayout.cshtml
+* Creare la view di login [/Views/Account/Login.cshtml](https://gist.github.com/dmantovani73/d3fe1de39e420bdae6efd61002b12b38/062a337e966c7673725938f997975d474df0bfba)
+* Creare la view di registrazione [/Views/Account/Register.cshtml](https://gist.github.com/dmantovani73/b2a5ca071d9c384636e6c46d9fa42c48/971b1758b1a29200d4a36c5619729ccb5f387510)
+* Modificare [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/a13da2d8d78f23aeab3ab5a9704e6541414ab77e) aggiungendo la action Checkout accessibile solo agli utenti autenticati.
+* Aggiungere la view [Views/Basket/Checkout.cshtml](https://gist.github.com/dmantovani73/08c5114917fae3b629c236160b5a0d47/231092127b345181dc2a35f9c60a0b8e5aad4488).
+
+> Verificare login, register, logout. 
+> Verificare che /basket/checkout sia accessibile solo se autenticati.
+
+Ora facciamo in modo che nell'header compaia _Login_ se l'utente non è autenticato, _Logout_ se invece è loggato. Per farlo creare prima di tutto un HTML helper che permette in un file .cshtml di verificare se l'utente è autenticato o meno.
+* Creare il file [Infrastructure/RazorPageHelpers.cs](https://gist.github.com/dmantovani73/6a6d1d50cb2921218c47e6850412768c/320d20c206a452622a169c4ee3cafb35709a5550)
+* Modificare quindi [Header.cshtml](https://gist.github.com/dmantovani73/9e0751a3f43ca288b1dc216e54cb47f7/8c1c6b336c9f7189d36223c3928db8db5f5551bc) in modo che il link Login/Logout sia modificato dinamicamente.
+
+> Dare un'occhiata agli attributi [RequiredPermission, RequiredRole](https://docs.servicestack.net/authentication-and-authorization#requiredrole-and-requiredpermission-attributes) per poter definire autorizzazioni.
+
+> Riferimenti
+> * [ServiceStack Authentication and Authorization](https://docs.servicestack.net/authentication-and-authorization)
+
+## OAuth
+Il procedimento è illustrato con Facebook ma è analogo con tutti gli altri OAuth provider.
+* Accedere alla pagina developers.facebook.com/apps e creare una tantum un'applicazione.
+* Sempre da https://developers.facebook.com, scegliere l'applicazione appena create e quindi sulla sinistra _Impostazioni > Di Base_
+* In appsettings.json inserire le seguenti chiavi:
+
+"oauth.RedirectUrl": "...",
+"oauth.CallbackUrl": "...",
+"oauth.facebook.Permissions": [ "email" ],
+"oauth.facebook.AppId": "...",
+"oauth.facebook.AppSecret": "..."
+
+  * oauth.RedirectUrl: deve essere la URL della propria applicazione (es. https://localhost:44331)
+  * oauth.CallbackUrl: deve essere la URL della propria applicazione seguita da /api/auth/{0} (es. https://localhost:44331/api/auth/{0})
+  * oauth.facebook.AppId: ID dell'app appena creata recuperabile da https://developers.facebook.com, scegliere l'applicazione appena create e quindi sulla sinistra _Impostazioni > Di Base > ID app_ 
+  * oauth.facebook.AppSecret: Chiave segreta dell'app appena creata recuperabile da https://developers.facebook.com, scegliere l'applicazione appena create e quindi sulla sinistra _Impostazioni > Di Base > Chiave segreta_ 
+* Modificare [AppHost.cs](https://gist.github.com/dmantovani73/243c9ba93985f217eba59f8f79a37696/47f9ec92baf04bf90af5d454ea615a51f1442c1c) aggiungendo FacebookAuthProvider tra i provider possibili per il login.
+* Aggiungere quindi a [Login.cshtml](https://gist.github.com/dmantovani73/d3fe1de39e420bdae6efd61002b12b38/84505d4a41a317c4eb25230aa2df473859c7c961) il link _Sign in with Facebook._
+
+> Riferimenti
+> * https://docs.servicestack.net/authentication-and-authorization#oauth-providers
+> * https://docs.servicestack.net/authentication-and-authorization#oauth-configuration
+> * [OAuth 2](https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2)
+> * https://developers.facebook.com
