@@ -1,7 +1,7 @@
 ## Setup
 - Create un progetto di tipo ASP.NET Core Web Application
 
-![ASP.NET Core Web Application](https://github.com/dmantovani73/OnlineShop/blob/master/ASP.NET%20Core%20Web%20Application.png)
+![ASP.NET Core Web Application](https://github.com/dmantovani73/SimpleCommerce/blob/master/Resources/ASP.NET%20Core%20Web%20Application.png)
 
   - Versione: 2.2
   - Template: Empty
@@ -29,7 +29,7 @@
 
 > Riferimenti
 > * [Setup di ServiceStack in webapp .NET Core](https://docs.servicestack.net/netcore)
-> * [Setup delle funzionalità di logging](https://docs.servicestack.net/logging)
+> * [Setup delle funzionalitÃ  di logging](https://docs.servicestack.net/logging)
 
 ## MVC
 * Installare il pacchetto [ServiceStack.Mvc](https://www.nuget.org/packages/ServiceStack.Mvc/)
@@ -52,7 +52,7 @@
     * [Product.cshtml](https://gist.github.com/dmantovani73/df11a42453e867a5bbc0c8ee00146cea)
     * [Index.cshtml](https://gist.github.com/dmantovani73/6202d6fc6713f63ec81481609e325f86)
 
-> Aprendo una nuova finestra del browser la sessione rimane la stessa e quindi gli elementi nel carrello rimangono; non succede invece se viene aperta una finestra in modalità anonima perchè avvia una sessione differente.
+> Aprendo una nuova finestra del browser la sessione rimane la stessa e quindi gli elementi nel carrello rimangono; non succede invece se viene aperta una finestra in modalitÃ  anonima perchÃ¨ avvia una sessione differente.
 
 > Riferimenti
 > * https://docs.microsoft.com/it-it/aspnet/core/mvc/overview?view=aspnetcore-2.2
@@ -69,12 +69,12 @@ Il codice contiene un bug, facendo refresh della pagina il contatore degli eleme
 
 ## Caching
 > Salvare il carrello in session bag (che di default si appoggia alla memoria) presenta diversi problemi:
-> * di default la cache è in memoria e quindi volatile (riavvio del processo per qualche ragione, ad es. recycle; provare a stoppare IISExpress e riavviarlo)
+> * di default la cache Ã¨ in memoria e quindi volatile (riavvio del processo per qualche ragione, ad es. recycle; provare a stoppare IISExpress e riavviarlo)
 > * richiede [sticky session](https://stackoverflow.com/questions/10494431/sticky-and-non-sticky-sessions)
-> * non è scalabile.
+> * non Ã¨ scalabile.
 
-La soluzione è utilizzare un "cache server", meglio ancora se distribuito con possibilità di persistenza (es. basato su Redis).
-Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile configurare il cache provider senza avere impatto sul resto del codice.
+La soluzione Ã¨ utilizzare un "cache server", meglio ancora se distribuito con possibilitÃ  di persistenza (es. basato su Redis).
+Tramite [dependency injection](https://docs.servicestack.net/ioc) Ã¨ possibile configurare il cache provider senza avere impatto sul resto del codice.
 
 * Installare Redis e avviarlo
 * Installare il package [ServiceStack.Redis](https://www.nuget.org/packages/ServiceStack.Redis/)
@@ -100,8 +100,8 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 > * [Auto-Mapping](https://docs.servicestack.net/auto-mapping)
 
 ## Servizi REST e chiamate AJAX
-* Modificare [BasketViewModel.cs](https://gist.github.com/dmantovani73/4880bde8f90af06ce9541f0279bbe5d8/7c9baf09a63979c6cbd1386bd7fcde6f22488989) aggiungendo la quantità.
-* Modificare [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/ff42b2ca6eb167ba11ff79efd738812c42a8bda9) per gestire la quantità.
+* Modificare [BasketViewModel.cs](https://gist.github.com/dmantovani73/4880bde8f90af06ce9541f0279bbe5d8/7c9baf09a63979c6cbd1386bd7fcde6f22488989) aggiungendo la quantitÃ .
+* Modificare [BasketController.cs](https://gist.github.com/dmantovani73/956c0dc70d5fe0535d060523e1514909/ff42b2ca6eb167ba11ff79efd738812c42a8bda9) per gestire la quantitÃ .
 * Creare il folder ServiceModel
   * [Basket.cs](https://gist.github.com/dmantovani73/f04ac3dc04f34268f5e51f974bd4d3dc/9ffc816db7ab4c706da59d45c82d23e8fac9fea4)
 * Creare il folder ServiceInterface
@@ -113,7 +113,7 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 * Modificare [Views/Shared/\_Layout.cshtml](https://gist.github.com/dmantovani73/57631cbe51313ef4135bf90e8022f4cc/2e5b13261e90d159620a101ae12f7135b6a1da86) leggendo il numero di elementi nel basket con una chiamata AJAX
 
 ### Esercizio
-* Implementare la view che mostra il contenuto del carrello in termini di nome prodotto, quantità, prezzo.
+* Implementare la view che mostra il contenuto del carrello in termini di nome prodotto, quantitÃ , prezzo.
 
 > Riferimenti
 > * [Creating a WebService from scratch](https://docs.servicestack.net/create-webservice-from-scratch)
@@ -127,7 +127,7 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 * Creare la classe helper [Infrastructure/UrlHelpers.cs](https://gist.github.com/dmantovani73/25708c23f91c4e13c43e45dadf1ba48e/e87704a02a02f76bd8109e673d176ff6a7f83644). E' un esempio di come estendere MVC con un extension method. Utile per recuperare la URL di una action evitando di utilizzare stringhe (che possono cambiare).
 * Modificare la classe [ControllerBase.cs](https://gist.github.com/dmantovani73/b95eda2c14d1b11af477ecc8145f22e1/4f1457f03c253d15add78ffb2503253dc71eff7f) per indicare a ServiceStack.Mvc a quali URL fare redirect in caso di accesso negato / non consentito.
 * Aggiungere ora [AccountController.cs](https://gist.github.com/dmantovani73/63c538c719aff2d639f685907e382dee/cee4d99d31c15e4c9464c8a1ab3dff20149113f2) contenente le action di login, register (registrazione esplicita), logout.
-* Le pagine di login e registrazione non devono avere banner e filtri, per questa ragione facciamo un minimo di refactoring del layout in modo da mettere a fattor comune quello che si può
+* Le pagine di login e registrazione non devono avere banner e filtri, per questa ragione facciamo un minimo di refactoring del layout in modo da mettere a fattor comune quello che si puÃ²
   * Creare [Views/Shared/_BasicLayout.cshtml](https://gist.github.com/dmantovani73/cb3a8e643a34fba9b5797ce55e3e2f8f/f1ee514203a02c1e119bdc2c7695776409bd8a62)
   * Modificare [Views/Shared/_Layout.cshtml](https://gist.github.com/dmantovani73/57631cbe51313ef4135bf90e8022f4cc/7d5c8aabfb6d363fa74fda1298743293093dbcac) in modo da "ereditare" da _BasicLayout.cshtml
 * Creare la view di login [/Views/Account/Login.cshtml](https://gist.github.com/dmantovani73/d3fe1de39e420bdae6efd61002b12b38/062a337e966c7673725938f997975d474df0bfba)
@@ -138,7 +138,7 @@ Tramite [dependency injection](https://docs.servicestack.net/ioc) è possibile co
 > Verificare login, register, logout. 
 > Verificare che /basket/checkout sia accessibile solo se autenticati.
 
-Ora facciamo in modo che nell'header compaia _Login_ se l'utente non è autenticato, _Logout_ se invece è loggato. Per farlo creare prima di tutto un HTML helper che permette in un file .cshtml di verificare se l'utente è autenticato o meno.
+Ora facciamo in modo che nell'header compaia _Login_ se l'utente non Ã¨ autenticato, _Logout_ se invece Ã¨ loggato. Per farlo creare prima di tutto un HTML helper che permette in un file .cshtml di verificare se l'utente Ã¨ autenticato o meno.
 * Creare il file [Infrastructure/RazorPageHelpers.cs](https://gist.github.com/dmantovani73/6a6d1d50cb2921218c47e6850412768c/320d20c206a452622a169c4ee3cafb35709a5550)
 * Modificare quindi [Header.cshtml](https://gist.github.com/dmantovani73/9e0751a3f43ca288b1dc216e54cb47f7/8c1c6b336c9f7189d36223c3928db8db5f5551bc) in modo che il link Login/Logout sia modificato dinamicamente.
 
@@ -148,7 +148,7 @@ Ora facciamo in modo che nell'header compaia _Login_ se l'utente non è autentica
 > * [ServiceStack Authentication and Authorization](https://docs.servicestack.net/authentication-and-authorization)
 
 ## OAuth
-Il procedimento è illustrato con Facebook ma è analogo con tutti gli altri OAuth provider.
+Il procedimento Ã¨ illustrato con Facebook ma Ã¨ analogo con tutti gli altri OAuth provider.
 * Accedere alla pagina developers.facebook.com/apps e creare una tantum un'applicazione.
 * Sempre da https://developers.facebook.com, scegliere l'applicazione appena create e quindi sulla sinistra _Impostazioni > Di Base_
 * In appsettings.json inserire le seguenti chiavi:
