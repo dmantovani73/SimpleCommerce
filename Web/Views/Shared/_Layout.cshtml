@@ -28,5 +28,37 @@
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js?v=EWaMeWsJBYWmL2g_KkgXZQ5nPe-a3Ichp0LEgzXczKo"></script>
+
+    <script>
+
+        $(function () {
+            $(".product").on("submit", function (e) {
+                var target = e.currentTarget;
+                var id = $(target).find("input[name=id]").val();
+                var price = $(target).find("input[name=price]").val();
+
+                $.get('@Url.Action("Add", "Basket")?id=' + id + "&price=" + price)
+                    .done(function (response) {
+                        // response -> array
+                        var count = response.length;
+                        alert(count)
+                        //var data = response.data;
+                        //var counter = data == null ? 0 : data.length;
+                        //$(".esh-basketstatus-badge").text(counter);
+                    })
+
+                e.preventDefault();
+            })
+        })
+
+        //$(function () {
+        //    $.get("/api/basket?format=json").done(function (response) {
+        //        var data = response.data;
+        //        var counter = data == null ? 0 : data.length;
+        //        $(".esh-basketstatus-badge").text(counter);
+        //    })
+        //})
+
+    </script>
 </body>
 </html>

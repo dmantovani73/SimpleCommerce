@@ -13,7 +13,10 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
     <PackageReference Include="ServiceStack" Version="5.5.0" />
     <PackageReference Include="ServiceStack.Logging.Serilog" Version="5.5.0" />
+    <PackageReference Include="ServiceStack.Mvc" Version="5.5.0" />
+    <PackageReference Include="ServiceStack.OrmLite.PostgreSQL" Version="5.5.0" />
     <PackageReference Include="ServiceStack.OrmLite.Sqlite" Version="5.5.0" />
+    <PackageReference Include="ServiceStack.Redis" Version="5.5.0" />
   </ItemGroup>
 
   <ItemGroup>

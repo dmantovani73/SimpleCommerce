@@ -1,45 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceStack;
+using ServiceStack.Caching;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-public class HomeController : Controller
+public class HomeController : ControllerBase
 {
-    static readonly List<ProductViewModel> products = new List<ProductViewModel>
+    public async Task<IActionResult> Index()
     {
-        new ProductViewModel
-        {
-            Id = 1,
-            Name = ".NET Bot Black Sweatshirt",
-            Price = 19.5M,
-            PictureUrl = "/images/products/1.png",
-        },
-        new ProductViewModel
-        {
-            Id = 2,
-            Name = ".NET Black & White Mug",
-            Price = 8.5M,
-            PictureUrl = "/images/products/2.png",
-        },
-        new ProductViewModel
-        {
-            Id = 3,
-            Name = "Corso universitario scontato al 50%",
-            Price = 100M,
-            PictureUrl = "/images/products/3.png",
-        },
-    };
+        TempData["BasketCount"] = Basket.Count;
 
-    public IActionResult Index()
-    {
-        var container = HostContext.Container;
-        var dbFactory = container.TryResolve<IDbConnectionFactory>();
+        var products =
+            from p in await Db.SelectAsync<Product>()
+            select p.ConvertTo<ProductViewModel>();
 
-        using (var db = dbFactory.Open())
-        {
-
-        }
+        //var products =
+        //    (await Db.SelectAsync<Product>())
+        //    .Select(p => p.ConvertTo<ProductViewModel>());
 
         return View(products);
     }
