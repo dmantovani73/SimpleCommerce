@@ -171,3 +171,19 @@ Il procedimento è illustrato con Facebook ma è analogo con tutti gli altri OAu
 > * https://docs.servicestack.net/authentication-and-authorization#oauth-configuration
 > * [OAuth 2](https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2)
 > * https://developers.facebook.com
+
+## Ristrutturazione del codice
+* Aggiungere al folder Infrastructure i seguenti tipi:
+  ** https://gist.github.com/dmantovani73/55c529ca4d96be8de9be500ac60fb5fd/e495472188d2935dbaab3da2aa728eb7640e35ff
+  ** https://gist.github.com/dmantovani73/0864d862752a54486fa18820ef258038/f6d3deef54ff4b307958af7847b0ae4b4f81942b
+  ** https://gist.github.com/dmantovani73/3d8298b979ff358e6a91534b33f3daac/d733c840bf3e101ad5962432f52ec1eaac4bc70c
+  ** https://gist.github.com/dmantovani73/5f628c77151e64cd862cd6163e2c3a7c/fd54cfc6a356bd1335ec657cda992b374c39d3a3
+  ** https://gist.github.com/dmantovani73/15c01dbbee61ad2e09390c2690bab2f1/4ef2957b7c8dcc9e7e541a0c51f679e28641ecd4
+  ** https://gist.github.com/dmantovani73/d7a9f5278ba52abf5c187a3e507f991c/56d922b1a641eb7d8650f07aec3178a76a04ecc7
+  ** https://gist.github.com/dmantovani73/b2c79879a289e50c6f914883026a5517/53cca7653d7d6738bfa8b43a0b948201514eec58
+  
+
+## Real time
+> Riferimenti
+> * https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-2.2
+> * https://docs.microsoft.com/en-us/aspnet/core/tutorials/signalr?view=aspnetcore-2.2&tabs=visual-studio
