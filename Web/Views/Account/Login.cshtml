@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "_BasicLayout";
+}
+
+<div class="container account-login-container">
+    <h2>Log in</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <section>
+                <form method="post" action="~/api/auth/credentials/">
+                    <hr>
+                    <div class="text-danger validation-summary-valid" data-valmsg-summary="true">
+                        <ul>
+                            <li style="display:none"></li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="Input_Email">Email</label>
+                        <input class="form-control" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="UserName" name="UserName" value="">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Input.Email" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Input_Password">Password</label>
+                        <input class="form-control" type="password" data-val="true" data-val-required="The Password field is required." id="Password" name="Password">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Input.Password" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label for="Input_RememberMe">
+                                <input type="checkbox" data-val="true" data-val-required="The Remember me? field is required." id="RememberMe" name="RememberMe" value="true">
+                                Remember me?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default">Log in</button>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-block btn-social btn-facebook" href="~/api/auth/facebook">
+                            Sign in with Facebook
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            <a href="@(Url.Action<AccountController>(nameof(AccountController.Register)))?returnUrl=/">Register as a new user</a>
+                        </p>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>

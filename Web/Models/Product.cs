@@ -1,6 +1,6 @@
 ﻿using ServiceStack.DataAnnotations;
 
-public class Product
+public class Product : IHasId
 {
     [PrimaryKey]
     public int Id { get; set; }

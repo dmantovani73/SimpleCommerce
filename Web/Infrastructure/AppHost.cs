@@ -1,51 +1,46 @@
 ﻿using Funq;
 using Serilog;
 using ServiceStack;
-using ServiceStack.Caching;
+using ServiceStack.Api.Swagger;
+using ServiceStack.Auth;
 using ServiceStack.Data;
 using ServiceStack.Logging;
 using ServiceStack.Logging.Serilog;
 using ServiceStack.OrmLite;
 using ServiceStack.Redis;
-using ServiceStack.Text;
-using System;
 using System.IO;
 using System.Reflection;
 
 public class AppHost : AppHostBase
 {
-    public AppHost() : base("SimpleCommerce", typeof(AppHost).Assembly)
+    public AppHost() : base("", typeof(AppHost).Assembly)
     { }
 
     public override void Configure(Container container)
     {
-        LogManager.LogFactory = new SerilogFactory(
-            new LoggerConfiguration()
-                .WriteTo.File(
-                    path: Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Log.log"),
-                    rollingInterval: RollingInterval.Day)
-                .MinimumLevel.Information()
-                .CreateLogger()
+        SetConfig(new HostConfig { HandlerFactoryPath = "api" });
+
+        Plugins.Add(new SwaggerFeature());
+
+        LogManager.LogFactory = new SerilogFactory(new LoggerConfiguration()
+            .WriteTo.File(path: Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Log.log"), rollingInterval: RollingInterval.Day)
+            .CreateLogger()
         );
 
         container.Register<IRedisClientsManager>(c => new RedisManagerPool(AppSettings.Get<string>("Redis")));
-        container.Register<ICacheClient>(c => c.Resolve<IRedisClientsManager>().GetCacheClient());
+        container.Register(c => c.Resolve<IRedisClientsManager>().GetCacheClient());
+
+        var dbFactory = new OrmLiteConnectionFactory(AppSettings.Get<string>("ConnectionString"), SqliteDialect.Provider);
+        container.Register<IDbConnectionFactory>(dbFactory);
+        container.Register(c => new UnitOfWork(dbFactory)).ReusedWithin(ReuseScope.Request);
 
         InitDb();
+        InitAuth();
     }
 
     void InitDb()
     {
-        var connectionString = AppSettings.Get<string>("ConnectionString");
-        var dialectProvider = AppSettings.Get<DialectProvider>("DialectProvider");
-
-        var dbFactory = new OrmLiteConnectionFactory(
-            connectionString,
-            DialectProviderFactory.Create(dialectProvider)
-        );
-
-        Register<IDbConnectionFactory>(dbFactory);
-
+        var dbFactory = TryResolve<IDbConnectionFactory>();
         using (var db = dbFactory.Open())
         {
             db.CreateTableIfNotExists<Product>();
@@ -75,5 +70,24 @@ public class AppHost : AppHostBase
                 }
             });
         }
+    }
+
+    void InitAuth()
+    {
+        var container = Container;
+
+        Plugins.Add(new AuthFeature(
+            () => new AuthUserSession(),
+            new IAuthProvider[]
+            {
+                new CredentialsAuthProvider(), //HTML Form post of UserName/Password credentials
+                new FacebookAuthProvider(AppSettings),
+            }
+        ));
+
+        Plugins.Add(new RegistrationFeature());
+
+        container.Register<IAuthRepository>(c => new OrmLiteAuthRepository(c.Resolve<IDbConnectionFactory>()));
+        container.Resolve<IAuthRepository>().InitSchema();
     }
 }

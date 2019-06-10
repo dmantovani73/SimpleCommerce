@@ -1,32 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServiceStack.Caching;
-using ServiceStack.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using ServiceStack;
+using System.Linq;
 
 public class BasketController : ControllerBase
 {
-    //List<BasketViewModel> Basket => SessionBag.GetOrAdd("Basket", new List<BasketViewModel>());
+    public IActionResult Index() => View();
 
-    //[HttpPost]
-    //public IActionResult Add(int id, decimal price)
-    //{
-    //    var basket = Basket;
-    //    basket.Add(new BasketViewModel { Id = id, Price = price });
-    //    Basket = basket;
-
-    //    TempData["BasketCount"] = basket.Count;
-
-    //    return RedirectToAction("Index", "Home");
-    //}
-
-    [HttpGet]
+    [HttpPost]
     public IActionResult Add(int id, decimal price)
     {
         var basket = Basket;
-        basket.Add(new BasketViewModel { Id = id, Price = price });
+
+        var product = basket.Where(p => p.Id == id).FirstOrDefault();
+        if (product == null)
+        {
+            basket.Add(new BasketViewModel { Id = id, Price = price, Quantity = 1 });
+        }
+        else
+        {
+            product.Quantity++;
+        }
+
         Basket = basket;
 
-        return Json(basket);
+        return Redirect(Url.Action<HomeController>());
     }
+
+    [Authenticate]
+    public IActionResult Checkout() => View();
 }

@@ -3,30 +3,36 @@
         <article class="row">
             <section class="col-lg-7 col-md-6 col-xs-12">
                 <a href="/">
-                    <img src="/images/brand.png" alt="eShop On Web">
+                    <img src="/images/brand.png" alt="eShop On Web" />
                 </a>
             </section>
             <section class="col-lg-4 col-md-5 col-xs-12">
                 <div class="esh-identity">
                     <section class="esh-identity-section">
                         <div class="esh-identity-item">
-
-                            <a class="esh-identity-name esh-identity-name--upper" href="/Identity/Account/Login">
-                                Login
-                            </a>
+                            @if (this.IsAuthenticated())
+                            {
+                                <a class="esh-identity-name esh-identity-name--upper" href="@(Url.Action<AccountController>(nameof(AccountController.Logout)))">
+                                    Logout
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="esh-identity-name esh-identity-name--upper" href="@(Url.Action<AccountController>(nameof(AccountController.Login)))">
+                                    Login
+                                </a>
+                            }
                         </div>
                     </section>
                 </div>
             </section>
             <section class="col-lg-1 col-xs-12">
 
-
-                <a class="esh-basketstatus" href="/Basket">
+                <a class="esh-basketstatus" href="@(Url.Action<BasketController>())">
                     <div class="esh-basketstatus-image">
-                        <img src="/images/cart.png">
+                        <img src="/images/cart.png" />
                     </div>
                     <div class="esh-basketstatus-badge">
-                        @(TempData["BasketCount"] ?? 0)
                     </div>
                 </a>
 

@@ -1,64 +1,13 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@(ViewBag.Title ?? ViewData["Title"])</title>
+﻿@{
+    Layout = "_BasicLayout";
+}
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/app.css" />
-    <link rel="stylesheet" href="~/css/app.component.css" />
-    <link rel="stylesheet" href="~/css/shared/components/header/header.css" />
-    <link rel="stylesheet" href="~/css/shared/components/identity/identity.css" />
-    <link rel="stylesheet" href="~/css/shared/components/pager/pager.css" />
-    <link rel="stylesheet" href="~/css/basket/basket.component.css" />
-    <link rel="stylesheet" href="~/css/basket/basket-status/basket-status.component.css" />
-    <link rel="stylesheet" href="~/css/catalog/catalog.component.css" />
-    <link rel="stylesheet" href="~/css/orders/orders.component.css" />
-</head>
-<body>
-    <div class="esh-app-wrapper">
-        @await Html.PartialAsync("Header")
-        @await Html.PartialAsync("Banner")
-        @await Html.PartialAsync("Filters")
-        @RenderBody()
-        @await Html.PartialAsync("Footer")
-    </div>
+@section Banner {
+    @await Html.PartialAsync("Banner")
+}
 
-    <script src="~/lib/jquery/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/js/site.js?v=EWaMeWsJBYWmL2g_KkgXZQ5nPe-a3Ichp0LEgzXczKo"></script>
+@section Filters {
+    @await Html.PartialAsync("Filters")
+}
 
-    <script>
-
-        $(function () {
-            $(".product").on("submit", function (e) {
-                var target = e.currentTarget;
-                var id = $(target).find("input[name=id]").val();
-                var price = $(target).find("input[name=price]").val();
-
-                $.get('@Url.Action("Add", "Basket")?id=' + id + "&price=" + price)
-                    .done(function (response) {
-                        // response -> array
-                        var count = response.length;
-                        alert(count)
-                        //var data = response.data;
-                        //var counter = data == null ? 0 : data.length;
-                        //$(".esh-basketstatus-badge").text(counter);
-                    })
-
-                e.preventDefault();
-            })
-        })
-
-        //$(function () {
-        //    $.get("/api/basket?format=json").done(function (response) {
-        //        var data = response.data;
-        //        var counter = data == null ? 0 : data.length;
-        //        $(".esh-basketstatus-badge").text(counter);
-        //    })
-        //})
-
-    </script>
-</body>
-</html>
+@RenderBody()
